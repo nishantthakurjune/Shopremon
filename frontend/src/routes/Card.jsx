@@ -13,6 +13,7 @@ export default function Card() {
 
   const { state } = useLocation();
   const product = state?.productData;
+
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
 
@@ -44,7 +45,6 @@ export default function Card() {
     }, 2000); // Simulate a 2-second delay for loading
   };
   
-
 
   return (
     <div className="max-w-7xl mx-auto p-8 h-screen">
