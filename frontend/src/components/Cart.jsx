@@ -11,7 +11,7 @@ const Cart = () => {
   // The .reduce() method is just a fancy way of saying 
   // "go through each item and keep a running total." 
   // Think of it like scanning items at a checkout counter,
-  // where the total keeps growing with each item scanned.
+  // AkKJjkwhere the total keeps growing with each item scanned.
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };

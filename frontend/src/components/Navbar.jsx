@@ -2,14 +2,14 @@ import cartImg from "../assets/images/icon-cart.svg";
 import image from "../assets/images/profile.jpg";
 import { Link } from "react-router";
 import { useState } from "react";
-import { useSelector } from "react-redux"; // Add this import
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Add this line
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   return (
-    <nav className="navbar border-b border-gray-300 p-5 font-custom">
+    <nav className="navbar border-b border-gray-300 p-5 font-custom relative">
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="box1">
@@ -30,9 +30,9 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div
-          className={`box2 flex flex-col md:flex-row md:items-center gap-6 absolute md:static bg-white md:bg-transparent w-full md:w-auto left-0 top-16 p-5 md:p-0 transition-transform duration-300 ease-in-out ${
-            menuOpen ? "translate-y-0" : "-translate-y-full"
-          } md:translate-y-0`}
+          className={`box2 md:flex ${
+            menuOpen ? "flex" : "hidden"
+          } flex-col md:flex-row md:items-center gap-6 absolute md:static bg-white md:bg-transparent w-full left-0 top-[4.5rem] p-5 md:p-0 shadow-lg md:shadow-none z-50 md:ml-60`}
         >
           <Link to="/collections">
             <div className="text-orange hover:text-gray-700">Collections</div>
@@ -78,4 +78,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar;  
