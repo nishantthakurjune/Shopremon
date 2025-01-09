@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const dataRoutes = require('./routes/dataRoutes');
 require('dotenv').config();
 
+
 // Create Express app
 const app = express();
 
+// Add this to your server.js
+
+
 // Body parser
-app.use(express.json());
+app.use(express.json());  
 
 // Mount routes
 app.use('/api/data', dataRoutes);
