@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const app = express();
 const dotenv = require('dotenv')
 const authRouter = require('./routes/authRouter.js')
+const cors = require('cors')
 
 dotenv.config();
+app.use(cors());
 app.use(express.json());
 app.use('/auth', authRouter);
 
@@ -17,3 +19,4 @@ mongoose.connect(process.env.MONGO).then(()=>{
 }).catch((err)=>{
     console.log(`Failed to connect`);
 })
+

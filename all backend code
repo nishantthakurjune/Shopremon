@@ -1,0 +1,102 @@
+//index.js
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+const dotenv = require('dotenv')
+const authRouter = require('./routes/authRouter.js')
+
+dotenv.config();
+app.use(express.json());
+app.use('/auth', authRouter);
+
+
+mongoose.connect(process.env.MONGO).then(()=>{
+    console.log("connected to database");
+    app.listen(process.env.PORT, (req, res)=>{
+        console.log(`hosting at ${process.env.PORT}`);
+    })
+}).catch((err)=>{
+    console.log(`Failed to connect`);
+})
+
+
+
+
+//userModel.js
+const mongoose = require('mongoose');
+
+const userSchema =  new mongoose.Schema({
+    username : {
+        type: String,
+        required: true
+    },
+    email : {
+        type: String,
+        required: true
+    },
+    password : {
+        type: String,
+        required: true
+    },
+})
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;
+
+
+//authRoutes.js
+const express = require('express');
+const router = express.Router();
+const {login, signup} = require('../controller/authController')
+
+router.post('/signup', signup);
+router.post('/login', login);
+
+module.exports = router;
+
+
+
+
+//authController.js
+const User = require('../model/userModel')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const signup = async (req, res)=>{
+    const {username, email, password} = req.body;
+    const hashedPass = bcrypt.hashSync(password, 10);
+    const user = new User({username, email, password: hashedPass});
+    try{
+    await user.save();
+    res.status(201).json({message: `user created successfully`});
+    }
+    catch(err){
+        console.error(err);
+        return res.status(500).json({message: `Internal Server Error`})
+    }
+}
+
+const login = async (req, res, next)=>{
+    try{
+        const { email, password} = req.body;
+        const user = await User.findOne({email})
+        if(!user){
+            return res.status(400).json({message: "User not found. Please sign up first."})
+        }
+        //compare to provided password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).json({message: `Invalid credentials: Please try again.`});
+        }
+
+        //generate JWT token
+        const token = jwt.sign({id: user._id, email: user._email}, process.env.SECRET, {expiresIn: "1h"}); 
+        return res.status(200).json({message: "Login Successful", token, user})
+        }
+        catch(err){
+            console.error(err);
+            return res.status(500).json({message: "Internal Server Error"})
+        }
+};
+
+module.exports = {signup, login};
