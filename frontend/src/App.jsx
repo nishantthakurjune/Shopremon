@@ -1,15 +1,17 @@
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router";
-import Home from "./routes/Home.jsx";
-import Listing from "./routes/Listing.jsx";
-import Men from "./routes/Men.jsx";
-import Women from "./routes/Women.jsx";
-import About from "./routes/About.jsx";
+import Home from "./pages/Home.jsx";
+import Listing from "./pages/Listing.jsx";
+import Men from "./pages/Men.jsx";
+import Women from "./pages/Women.jsx";
+import About from "./pages/About.jsx";
 import Cart from "./components/Cart.jsx";
-import Profile from "./routes/Profile.jsx";
+import Profile from "./pages/Profile.jsx";
 import Footer from "./components/Footer.jsx";
-import Collections from "./routes/Collections.jsx";
-import Card from "./routes/Card.jsx";
+import Collections from "./pages/Collections.jsx";
+import Card from "./pages/Card.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Login from "./pages/Login.jsx";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/women" element={<Women />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
